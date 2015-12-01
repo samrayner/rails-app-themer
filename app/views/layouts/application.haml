@@ -1,0 +1,14 @@
+!!! 5
+%html{ lang: 'en' }
+  %head
+    %meta{ charset: 'utf-8' }
+    %meta{ name: 'viewport', content: 'initial-scale=1.0, width=device-width' }
+    %meta{ name: 'apple-mobile-web-app-capable', content: 'yes' }
+    = csrf_meta_tags
+
+    %title Themer
+
+    = javascript_include_tag 'application', 'data-turbolinks-track': true
+    = stylesheet_link_tag 'application', '/theme.css', 'data-turbolinks-track': true
+  %body
+    = yield
