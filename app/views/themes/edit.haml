@@ -1,2 +1,19 @@
--# = simple_form_for theme do |f|
--#   f.input :background
+.container
+  .row
+    .col-sm-6
+      = simple_form_for [:campaign, theme] do |f|
+        %fieldset
+          %legend Colors
+          - Theme::COLOR_VARS.each do |key|
+            = f.input key, input_html: { class: 'pick-color' }
+        %fieldset
+          %legend Fonts
+          - Theme::FONT_VARS.each do |key|
+            = f.input key, collection: Theme::FONT_STACKS
+        %fieldset
+          %legend Images
+          = f.input :logo
+        = f.submit class: 'btn btn-primary'
+    .col-sm-6
+      %h4 Preview
+      %iframe{ src: '/' }

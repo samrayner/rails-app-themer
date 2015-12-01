@@ -1,9 +1,19 @@
 body {
-  background-color: yellow;
-  color: red;
-  font-family: helvetica;
+  padding: 10vh 0;
 }
 
-h1 {
-  font-family: times;
+iframe {
+  border: 1px solid $gray;
+  width: 100%;
+  height: 80vh;
+}
+
+.themed {
+  background-color: yellow;
+  color: red;
+  font-family: verdana;
+
+  h1 {
+    font-family: times;
+  }
 }

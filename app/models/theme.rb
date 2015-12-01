@@ -3,8 +3,23 @@ class Theme < ActiveRecord::Base
   # When the browser encounters it, it's ignored and the fallback is used
   INVALID_CSS_VALUE = ':'
 
-  COLOR_VARS = [:background, :text]
-  FONT_VARS  = [:headings, :body]
+  COLOR_VARS = [:background_color, :text_color]
+  FONT_VARS  = [:headings_font, :body_font]
+
+  FONT_STACKS = {
+    'Helvetica':
+      '"Helvetica Neue", Helvetica, Arial, sans-serif',
+    'Lucida Grande':
+      '"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif',
+    'Gill Sans':
+      '"Gill Sans", "Gill Sans MT", Calibri, sans-serif',
+    'Palatino':
+      'Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif',
+    'Baskerville':
+      'Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif',
+    'Times':
+      '"Times New Roman", Times, serif'
+  }
 
   store_accessor :colors, *COLOR_VARS
   store_accessor :fonts, *FONT_VARS
@@ -13,12 +28,12 @@ class Theme < ActiveRecord::Base
   mount_uploader :logo, LogoUploader
 
   def color(key)
-    #return invalid CSS if nil so rule gets ignored
-    colors.try(:[], key.to_s) || INVALID_CSS_VALUE
+    val = colors.try(:[], "#{key}_color") || INVALID_CSS_VALUE
+    val.html_safe
   end
 
   def font(key)
-    #return invalid CSS if nil so rule gets ignored
-    fonts.try(:[], key.to_s) || INVALID_CSS_VALUE
+    val = fonts.try(:[], "#{key}_font") || INVALID_CSS_VALUE
+    val.html_safe
   end
 end
