@@ -23,6 +23,6 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS, :logo)
+    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS, :logo, :logo_base64)
   end
 end

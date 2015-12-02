@@ -2,10 +2,6 @@ class Theme < ActiveRecord::Base
   # CSS property value for invalidating any rule it's used in
   # When the browser encounters it, it's ignored and the fallback is used
   INVALID_CSS_VALUE = ':'
-
-  COLOR_VARS = [:background_color, :text_color]
-  FONT_VARS  = [:headings_font, :body_font]
-
   FONT_STACKS = {
     'Helvetica':
       '"Helvetica Neue", Helvetica, Arial, sans-serif',
@@ -21,11 +17,17 @@ class Theme < ActiveRecord::Base
       '"Times New Roman", Times, serif'
   }
 
+  COLOR_VARS = [:background_color, :text_color]
   store_accessor :colors, *COLOR_VARS
-  store_accessor :fonts, *FONT_VARS
-  belongs_to :campaign
 
-  mount_uploader :logo, LogoUploader
+  FONT_VARS  = [:headings_font, :body_font]
+  store_accessor :fonts, *FONT_VARS
+
+  IMAGE_VARS  = [:logo]
+  mount_uploader :logo, ImageUploader
+  attr_accessor :logo_base64
+
+  belongs_to :campaign
 
   def color(var)
     css_value(:color, var)
@@ -35,12 +37,20 @@ class Theme < ActiveRecord::Base
     css_value(:font, var)
   end
 
-  def image_url(uploader)
-    url = self.send(uploader).url
+  def image(image)
+    image_src(image) || INVALID_CSS_VALUE
+  end
+
+  def image_url(image)
+    url = image_src(image)
     url ? "url(#{url})" : INVALID_CSS_VALUE
   end
 
   private
+
+  def image_src(image)
+    send("#{image}_base64") || send(image).url
+  end
 
   def css_value(type, var)
     var = var.to_s.gsub(/_#{type}$/, '')

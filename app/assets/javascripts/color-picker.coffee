@@ -3,7 +3,7 @@ $ ->
 
   $pickers.each ->
     $input = $(this)
-    $input.parent().find(".swatch").click =>
+    $input.parent().find(".swatch").parent().click =>
       $input.focus()
 
   $pickers.colorpicker().on 'changeColor.colorpicker', (event) ->

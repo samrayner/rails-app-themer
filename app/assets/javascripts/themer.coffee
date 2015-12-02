@@ -14,17 +14,29 @@ class Themer
     @updatePreview()
 
   imageChanged: (event) =>
-    #use filereader to get base64
-    @updatePreview()
+    $input = $(event.target)
+    image = event.target.files[0]
+    reader = new FileReader
+
+    reader.onload = (file) =>
+      data = file.target.result
+      $input.siblings('.image-preview').attr('src', data)
+      $b64Input = $input.siblings('.image-base64')
+      $b64Input
+        .attr('name', $b64Input.data('name'))
+        .val(data)
+      @updatePreview()
+
+    reader.readAsDataURL(image)
 
   updatePreview: ->
     $head = @$preview.contents().find('head').first()
-    $ajax = $.get '/theme/preview', @$form.serialize(), (data) ->
+    $ajax = $.post '/theme/preview.css', @$form.serialize(), (data) =>
       $head.find('style#preview').remove()
       $head.append("<style id=\"preview\">#{data}</style>")
 
   init: ->
-    @$colorPickers.on 'changeColor.colorpicker', @colorChanged
+    @$colorPickers.blur @colorChanged
     @$fontPickers.change @fontChanged
     @$imagePickers.change @imageChanged
 

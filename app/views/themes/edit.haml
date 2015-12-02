@@ -6,28 +6,36 @@
       %fieldset.col-sm-12.color-pickers
         %legend Colors
         .row
-          - Theme::COLOR_VARS.each do |key|
+          - Theme::COLOR_VARS.each do |var|
             .col-sm-2
-              = f.input key do
+              = f.input var do
                 .input-group
-                  = f.input_field key, class: "form-control pick-color"
+                  = f.input_field var, class: "form-control pick-color"
                   %span.input-group-addon
-                    .swatch{ style: "background-color: #{theme.color(key)}" }
+                    .swatch{ style: "background-color: #{theme.color(var)}" }
     .row
       %fieldset.col-sm-12.font-pickers
         %legend Fonts
         .row
-          - Theme::FONT_VARS.each do |key|
+          - Theme::FONT_VARS.each do |var|
             .col-sm-2
-              = f.input key, collection: Theme::FONT_STACKS,
-                input_html: { style: "font-family: #{theme.font(key)}" }
+              = f.input var, collection: Theme::FONT_STACKS,
+                input_html: { style: "font-family: #{theme.font(var)}" }
     %fieldset.image-pickers
       %legend Images
       .row
-        .col-sm-3
-          = f.input :logo
-    = f.submit class: 'btn btn-primary'
+        - Theme::IMAGE_VARS.each do |var|
+          .col-sm-3
+            = f.input var, wrapper_html: { class: 'preview-input' } do
+              = image_tag theme.image(var), class: 'image-preview'
+              %input.image-base64{ 'data-name': "theme[#{var}_base64]", type: 'hidden' }
+              = f.file_field var
+    .text-right
+      = f.submit class: 'btn btn-primary'
 .row
   .col-sm-12
-    %h4 Preview
-    %iframe#preview{ src: '/' }
+    .panel.panel-default.preview-panel
+      .panel-heading
+        %h1.panel-title Preview
+      .panel-body
+        %iframe#preview{ src: '/' }
