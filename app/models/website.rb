@@ -1,4 +1,4 @@
-class Campaign < ActiveRecord::Base
+class Website < ActiveRecord::Base
   has_one :theme
 
   after_create :create_theme
@@ -6,6 +6,6 @@ class Campaign < ActiveRecord::Base
   private
 
   def create_theme
-    Theme.create(campaign_id: self.id)
+    Theme.create(website: self)
   end
 end

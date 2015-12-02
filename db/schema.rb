@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(version: 20151201103637) do
   enable_extension "plpgsql"
   enable_extension "hstore"
 
-  create_table "campaigns", force: :cascade do |t|
+  create_table "websites", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "themes", force: :cascade do |t|
-    t.integer  "campaign_id"
+    t.integer  "website_id"
     t.hstore   "colors"
     t.hstore   "fonts"
     t.string   "logo"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20151201103637) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "themes", ["campaign_id"], name: "index_themes_on_campaign_id", using: :btree
+  add_index "themes", ["website_id"], name: "index_themes_on_website_id", using: :btree
 
-  add_foreign_key "themes", "campaigns"
+  add_foreign_key "themes", "websites"
 end

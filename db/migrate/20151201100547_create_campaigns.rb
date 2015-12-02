@@ -1,6 +1,6 @@
-class CreateCampaigns < ActiveRecord::Migration
+class CreateWebsites < ActiveRecord::Migration
   def change
-    create_table :campaigns do |t|
+    create_table :websites do |t|
       t.string :title
 
       t.timestamps null: false

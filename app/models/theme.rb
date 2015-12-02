@@ -1,4 +1,6 @@
 class Theme < ActiveRecord::Base
+  belongs_to :website
+
   # CSS property value for invalidating any rule it's used in
   # When the browser encounters it, it's ignored and the fallback is used
   INVALID_CSS_VALUE = ':'
@@ -26,8 +28,6 @@ class Theme < ActiveRecord::Base
   IMAGE_VARS  = [:logo]
   mount_uploader :logo, ImageUploader
   attr_accessor :logo_base64
-
-  belongs_to :campaign
 
   def color(var)
     css_value(:color, var)

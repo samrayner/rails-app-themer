@@ -8,7 +8,7 @@ class ThemesController < ApplicationController
 
   def update
     theme.update!(theme_params)
-    redirect_to edit_campaign_theme_path, { notice: "Theme updated." }
+    redirect_to edit_website_theme_path, { notice: "Theme updated." }
   end
 
   def preview
@@ -19,10 +19,14 @@ class ThemesController < ApplicationController
   private
 
   def theme
-    @theme ||= Campaign.first.theme
+    @theme ||= Website.first.theme
+  end
+
+  def image_params
+    Theme::IMAGE_VARS + Theme::IMAGE_VARS.map{ |v| "#{v}_base64" }
   end
 
   def theme_params
-    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS, :logo, :logo_base64)
+    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS, *image_params)
   end
 end

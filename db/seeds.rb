@@ -6,4 +6,4 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-campaign = Campaign.find_or_create_by(title: 'Dry July')
+website = Website.find_or_create_by(title: 'My Website')
