@@ -7,8 +7,8 @@ class ThemesController < ApplicationController
   def edit; end
 
   def update
-    theme.tap { |t| t.update! theme_params }.touch
-    redirect_to edit_campaign_theme_path
+    theme.update!(theme_params)
+    redirect_to edit_campaign_theme_path, { notice: "Theme updated." }
   end
 
   private
@@ -18,7 +18,6 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS,
-      logo_atributes: [:id, :image, :_destroy, :image_cache])
+    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS, :logo)
   end
 end

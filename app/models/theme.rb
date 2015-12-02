@@ -27,13 +27,24 @@ class Theme < ActiveRecord::Base
 
   mount_uploader :logo, LogoUploader
 
-  def color(key)
-    val = colors.try(:[], "#{key}_color") || INVALID_CSS_VALUE
-    val.html_safe
+  def color(var)
+    css_value(:color, var)
   end
 
-  def font(key)
-    val = fonts.try(:[], "#{key}_font") || INVALID_CSS_VALUE
+  def font(var)
+    css_value(:font, var)
+  end
+
+  def image_url(uploader)
+    url = self.send(uploader).url
+    url ? "url(#{url})" : INVALID_CSS_VALUE
+  end
+
+  private
+
+  def css_value(type, var)
+    var = var.to_s.gsub(/_#{type}$/, '')
+    val = send(type.to_s.pluralize).try(:[], "#{var}_#{type}") || INVALID_CSS_VALUE
     val.html_safe
   end
 end

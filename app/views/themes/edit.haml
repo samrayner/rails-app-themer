@@ -1,19 +1,33 @@
-.container
-  .row
-    .col-sm-6
-      = simple_form_for [:campaign, theme] do |f|
-        %fieldset
-          %legend Colors
+- content_for :body_class, 'themer'
+
+.well
+  = simple_form_for [:campaign, theme] do |f|
+    .row
+      %fieldset.col-sm-12.color-pickers
+        %legend Colors
+        .row
           - Theme::COLOR_VARS.each do |key|
-            = f.input key, input_html: { class: 'pick-color' }
-        %fieldset
-          %legend Fonts
+            .col-sm-2
+              = f.input key do
+                .input-group
+                  = f.input_field key, class: "form-control pick-color"
+                  %span.input-group-addon
+                    .swatch{ style: "background-color: #{theme.color(key)}" }
+    .row
+      %fieldset.col-sm-12.font-pickers
+        %legend Fonts
+        .row
           - Theme::FONT_VARS.each do |key|
-            = f.input key, collection: Theme::FONT_STACKS
-        %fieldset
-          %legend Images
+            .col-sm-2
+              = f.input key, collection: Theme::FONT_STACKS,
+                input_html: { style: "font-family: #{theme.font(key)}" }
+    %fieldset
+      %legend Images
+      .row
+        .col-sm-3
           = f.input :logo
-        = f.submit class: 'btn btn-primary'
-    .col-sm-6
-      %h4 Preview
-      %iframe{ src: '/' }
+    = f.submit class: 'btn btn-primary'
+.row
+  .col-sm-12
+    %h4 Preview
+    %iframe{ src: '/' }

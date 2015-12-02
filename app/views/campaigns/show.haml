@@ -1,4 +1,4 @@
-.container
-  .themed
-    %h1= @campaign.title
-    %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit quam eu nisl pellentesque aliquam.
+- content_for :body_class, 'themed'
+
+%h1= @campaign.title
+%p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit quam eu nisl pellentesque aliquam.

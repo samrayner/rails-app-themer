@@ -1,5 +1,14 @@
 body {
-  padding: 10vh 0;
+  padding: 1em 0 2em;
+}
+
+fieldset legend {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  color: $gray-light;
+  padding-top: 0.5em;
 }
 
 iframe {
@@ -8,8 +17,18 @@ iframe {
   height: 80vh;
 }
 
+.pick-color + .input-group-addon {
+  cursor: pointer;
+}
+
+.swatch {
+  width: 16px;
+  height: 16px;
+  background-color: white;
+}
+
 .themed {
-  background-color: yellow;
+  background: yellow url('https://au.dryjuly.com/assets/img/dj-logo.gif') no-repeat 100% 0;
   color: red;
   font-family: verdana;
 

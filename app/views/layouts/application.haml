@@ -10,5 +10,7 @@
 
     = javascript_include_tag 'application', 'data-turbolinks-track': true
     = stylesheet_link_tag 'application', '/theme.css', 'data-turbolinks-track': true
-  %body
-    = yield
+  %body{ class: "#{yield(:body_class) if content_for?(:body_class)}" }
+    .container-fluid
+      = render 'shared/flash_messages'
+      = yield
