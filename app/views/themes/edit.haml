@@ -1,7 +1,7 @@
 - content_for :body_class, 'themer'
 
 .well
-  = simple_form_for [:campaign, theme] do |f|
+  = simple_form_for [:campaign, theme], html: { id: 'themer-form' } do |f|
     .row
       %fieldset.col-sm-12.color-pickers
         %legend Colors
@@ -21,7 +21,7 @@
             .col-sm-2
               = f.input key, collection: Theme::FONT_STACKS,
                 input_html: { style: "font-family: #{theme.font(key)}" }
-    %fieldset
+    %fieldset.image-pickers
       %legend Images
       .row
         .col-sm-3
@@ -30,4 +30,4 @@
 .row
   .col-sm-12
     %h4 Preview
-    %iframe{ src: '/' }
+    %iframe#preview{ src: '/' }

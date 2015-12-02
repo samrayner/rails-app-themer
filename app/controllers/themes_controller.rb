@@ -1,5 +1,5 @@
 class ThemesController < ApplicationController
-  layout false, only: :show
+  layout false, only: [:show, :preview]
   helper_method :theme
 
   def show; end
@@ -9,6 +9,11 @@ class ThemesController < ApplicationController
   def update
     theme.update!(theme_params)
     redirect_to edit_campaign_theme_path, { notice: "Theme updated." }
+  end
+
+  def preview
+    @theme = Theme.new(theme_params)
+    render :show
   end
 
   private
