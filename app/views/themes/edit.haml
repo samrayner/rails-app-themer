@@ -27,15 +27,21 @@
         - Theme::IMAGE_VARS.each do |var|
           .col-sm-3
             = f.input var, wrapper_html: { class: 'preview-input' } do
-              = image_tag theme.image(var), class: 'image-preview'
+              .image-preview{ style: "background-image: #{theme.image_url(var)}" }
               %input.image-base64{ 'data-name': "theme[#{var}_base64]", type: 'hidden' }
               = f.file_field var
     .text-right
       = f.submit class: 'btn btn-primary'
 .row
   .col-sm-12
-    .panel.panel-default.preview-panel
+    .panel.panel-default.browser
       .panel-heading
         %h1.panel-title Preview
       .panel-body
-        %iframe#preview{ src: '/' }
+        .browser-toolbar
+          .buttons
+            %button.browser-back.btn.btn-default ◄
+            %button.browser-forward.btn.btn-default ►
+          %form.browser-form
+            %input.browser-location.form-control{ value: root_url }
+        %iframe.browser-viewport{ src: '/' }
