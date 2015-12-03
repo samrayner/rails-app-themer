@@ -31,6 +31,7 @@
               %input.image-base64{ 'data-name': "theme[#{var}_base64]", type: 'hidden' }
               = f.file_field var
     .text-right
+      %input#preview-url{ name: 'preview_url', type: 'hidden' }
       = f.submit class: 'btn btn-primary'
 .row
   .col-sm-12
@@ -43,5 +44,5 @@
             %button.browser-back.btn.btn-default ◄
             %button.browser-forward.btn.btn-default ►
           %form.browser-form
-            %input.browser-location.form-control{ value: root_url }
-        %iframe.browser-viewport{ src: '/' }
+            %input.browser-location.form-control{ value: preview_url }
+        %iframe.browser-viewport{ src: preview_url }

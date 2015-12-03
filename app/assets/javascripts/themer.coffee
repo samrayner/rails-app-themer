@@ -6,6 +6,7 @@ class Themer
     @$viewport = $('iframe.browser-viewport')
     @iframe = @$viewport.get(0)
     @$locationInput = $('.browser-location')
+    @$locationInput = $('.browser-location')
 
   colorChanged: (event) =>
     @updatePreview()
@@ -23,7 +24,6 @@ class Themer
     reader.onload = (file) =>
       data = file.target.result
       $input.siblings('.image-preview').css('background-image', "url(#{data})")
-      console.log(data)
       $b64Input = $input.siblings('.image-base64')
       $b64Input
         .attr('name', $b64Input.data('name'))
@@ -45,11 +45,12 @@ class Themer
     @iframe.contentWindow.location.href = @$locationInput.val()
 
   previewLoaded: =>
-    @$locationInput.val(@iframe.contentWindow.location.href)
+    location = @iframe.contentWindow.location.href
+    @$locationInput.val(location)
+    $('#preview-url').val(location)
     @updatePreview()
 
   updatePreview: ->
-    console.log('applied')
     $head = @$viewport.contents().find('head').first()
     $ajax = $.post '/theme/preview.css', @$form.serialize(), (data) =>
       $head.find('style#preview').remove()
