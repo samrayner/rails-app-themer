@@ -2,8 +2,13 @@ class ThemesController < ApplicationController
   layout false, only: [:show, :preview]
   helper_method :theme, :preview_url
 
+  def show
+    render :show if stale?(theme)
+  end
+
   def update
     theme.update!(theme_params)
+    Rails.cache.delete('theme')
     redirect_to edit_website_theme_path(preview_url: preview_params[:preview_url]),
       notice: "Theme updated."
   end
@@ -16,7 +21,9 @@ class ThemesController < ApplicationController
   private
 
   def theme
-    @theme ||= Website.first.theme
+    @theme ||= Rails.cache.fetch('theme', expires_in: 1.year) do
+      Website.first.theme
+    end
   end
 
   def preview_url
