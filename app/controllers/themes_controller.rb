@@ -30,12 +30,12 @@ class ThemesController < ApplicationController
     params[:preview_url] || root_url
   end
 
-  def image_params
-    Theme::IMAGE_VARS + Theme::IMAGE_VARS.map{ |v| "#{v}_base64" }
-  end
-
   def theme_params
-    params.require(:theme).permit(*Theme::COLOR_VARS, *Theme::FONT_VARS, *image_params)
+    params.require(:theme).permit(
+      *Theme::COLOR_VARS.map{ |v| "#{v}_color" },
+      *Theme::FONT_VARS.map{ |v| "#{v}_font" },
+      *(Theme::IMAGE_VARS + Theme::IMAGE_VARS.map{ |v| "#{v}_base64" })
+    )
   end
 
   def preview_params

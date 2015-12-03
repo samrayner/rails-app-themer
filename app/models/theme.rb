@@ -19,22 +19,22 @@ class Theme < ActiveRecord::Base
       '"Times New Roman", Times, serif'
   }
 
-  COLOR_VARS = [:background_color, :text_color]
-  store_accessor :colors, *COLOR_VARS
+  COLOR_VARS = [:background, :text]
+  store_accessor :colors, *COLOR_VARS.map{ |var| "#{var}_color" }
 
-  FONT_VARS  = [:headings_font, :body_font]
-  store_accessor :fonts, *FONT_VARS
+  FONT_VARS  = [:headings, :body]
+  store_accessor :fonts, *FONT_VARS.map{ |var| "#{var}_font" }
 
   IMAGE_VARS  = [:logo]
   mount_uploader :logo, ImageUploader
   attr_accessor :logo_base64
 
   def color(var)
-    css_value(:color, var)
+    value(:color, var) || INVALID_CSS_VALUE
   end
 
   def font(var)
-    css_value(:font, var)
+    value(:font, var) || INVALID_CSS_VALUE
   end
 
   def image(image)
@@ -48,13 +48,13 @@ class Theme < ActiveRecord::Base
 
   private
 
-  def image_src(image)
-    send("#{image}_base64") || send(image).url
+  def value(type, var)
+    attribute = "#{var}_#{type}"
+    return nil unless respond_to?(attribute)
+    send(attribute).try(:html_safe)
   end
 
-  def css_value(type, var)
-    var = var.to_s.gsub(/_#{type}$/, '')
-    val = send(type.to_s.pluralize).try(:[], "#{var}_#{type}") || INVALID_CSS_VALUE
-    val.html_safe
+  def image_src(image)
+    send("#{image}_base64") || send(image).url
   end
 end

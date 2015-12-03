@@ -10,7 +10,7 @@
             .col-sm-2
               = f.input var do
                 .input-group
-                  = f.input_field var, class: "form-control pick-color"
+                  = f.input_field "#{var}_color", class: "form-control pick-color"
                   %span.input-group-addon
                     .swatch{ style: "background-color: #{theme.color(var)}" }
     .row
@@ -19,7 +19,7 @@
         .row
           - Theme::FONT_VARS.each do |var|
             .col-sm-2
-              = f.input var, collection: Theme::FONT_STACKS,
+              = f.input "#{var}_font", label: var.capitalize, collection: Theme::FONT_STACKS,
                 input_html: { style: "font-family: #{theme.font(var)}" }
     %fieldset.image-pickers
       %legend Images
