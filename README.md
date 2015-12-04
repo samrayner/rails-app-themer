@@ -1,5 +1,7 @@
 # Rails App Themer
 
+## [Try the live demo](http://app-themer.herokuapp.com/theme/edit)
+
 ## Requirements
 
 Postgres (uses [hstores](http://www.postgresql.org/docs/9.0/static/hstore.html) for storing colors and fonts)
