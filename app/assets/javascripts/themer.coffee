@@ -53,8 +53,11 @@ class Themer
   updatePreview: ->
     $head = @$viewport.contents().find('head').first()
     $ajax = $.post '/theme/preview.css', @$form.serialize(), (data) =>
-      $head.find('style#preview').remove()
-      $head.append("<style id=\"preview\">#{data}</style>")
+      $stylesheet = $head.find('style#preview').first()
+      if $stylesheet.length >= 1
+        $stylesheet.html(data)
+      else
+        $head.append("<style id=\"preview\">#{data}</style>")
 
   init: ->
     @$colorPickers.blur @colorChanged
