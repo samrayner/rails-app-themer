@@ -1,5 +1,36 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 @import 'bootstrap-colorpicker';
-@import 'default';
 @import 'themer';
+
+body {
+  padding: 1em 0 2em;
+}
+
+.themed {
+  background: yellow no-repeat 100% 0;
+  color: red;
+  font-family: verdana;
+
+  /* THEME --------
+  background-color: color(background);
+  color: color(text);
+  font-family: font(body);
+  -------- THEME */
+
+  h1 {
+    font-family: times;
+
+    /* THEME --------
+    font-family: font(headings);
+    -------- THEME */
+  }
+}
+
+.image {
+  height: 300px;
+
+  /* THEME --------
+  background: image_url(logo) no-repeat 0 0;
+  -------- THEME */
+}
