@@ -24,12 +24,14 @@
     %fieldset.image-pickers
       %legend Images
       .row
-        - Theme::IMAGE_VARS.each do |var|
+        = f.simple_fields_for :images do |image|
           .col-sm-3
-            = f.input var, wrapper_html: { class: 'preview-input' } do
-              .image-preview{ style: "background-image: #{theme.image_url(var)}" }
-              %input.image-base64{ 'data-name': "theme[#{var}_base64]", type: 'hidden' }
-              = f.file_field var
+            - identifier = image.object.identifier
+            = image.input :identifier, as: :hidden
+            = image.input :image, label: identifier.titleize, wrapper_html: { class: 'preview-input' } do
+              .image-preview{ style: "background-image: #{theme.image_url(identifier)}" }
+              %input.image-base64{ 'data-name': "theme[images_attributes][#{image.index}][base64]", type: 'hidden' }
+              = image.file_field :image
     .text-right
       %input#preview-url{ name: 'preview_url', type: 'hidden' }
       = f.submit class: 'btn btn-primary'

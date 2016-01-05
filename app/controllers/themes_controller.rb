@@ -6,6 +6,13 @@ class ThemesController < ApplicationController
     render :show if stale?(theme)
   end
 
+  def edit
+    ThemeImage.unused.delete_all
+    Theme::IMAGE_VARS.each do |var|
+      theme.images.find_or_initialize_by(identifier: var)
+    end
+  end
+
   def update
     theme.update!(theme_params)
     Rails.cache.delete('theme')
@@ -14,7 +21,11 @@ class ThemesController < ApplicationController
   end
 
   def preview
-    @theme = Theme.new(theme_params)
+    theme.assign_attributes(theme_params)
+    theme.image_previews = {}
+    theme_params[:images_attributes].values.each do |image|
+      theme.image_previews[image['identifier']] = image['base64']
+    end
     render :show
   end
 
@@ -34,7 +45,7 @@ class ThemesController < ApplicationController
     params.require(:theme).permit(
       *Theme::COLOR_VARS.map{ |v| "#{v}_color" },
       *Theme::FONT_VARS.map{ |v| "#{v}_font" },
-      *(Theme::IMAGE_VARS + Theme::IMAGE_VARS.map{ |v| "#{v}_base64" })
+      images_attributes: [:id, :identifier, :image, :base64]
     )
   end
 

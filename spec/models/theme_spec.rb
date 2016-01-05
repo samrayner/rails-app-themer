@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Theme, type: :model do
   let(:theme) { Theme.create }
+  let(:theme_image) { theme.images.create(identifier: :logo) }
 
   describe '#color' do
     context 'when var does not exist' do
@@ -61,8 +62,6 @@ RSpec.describe Theme, type: :model do
 
   describe '#image' do
     context 'when no image has been uploaded' do
-      before { theme.logo = nil }
-
       it 'returns an invalid CSS value' do
         expect(theme.image(:logo)).to eql(Theme::INVALID_CSS_VALUE)
       end
@@ -70,29 +69,27 @@ RSpec.describe Theme, type: :model do
 
     context 'when an image has been uploaded' do
       before do
-        theme.update_column(:logo, 'image.png')
+        theme_image.update_column(:image, 'image.png')
       end
 
       it 'returns an invalid CSS value' do
-        expect(theme.image(:logo)).to eql("/uploads/theme/logo/#{theme.id}/image.png")
+        expect(theme.image(:logo)).to eql("/uploads/theme_image/image/#{theme_image.id}/image.png")
       end
     end
 
     context 'when a base64 version of the image is available' do
       before do
-        theme.logo_base64 = 'text'
+        theme.image_previews = { 'logo' => 'b64' }
       end
 
-      it 'returns an invalid CSS value' do
-        expect(theme.image(:logo)).to eql('text')
+      it 'returns base64 for the image' do
+        expect(theme.image(:logo)).to eql('b64')
       end
     end
   end
 
   describe '#image_url' do
     context 'when no image has been uploaded' do
-      before { theme.logo = nil }
-
       it 'returns an invalid CSS value' do
         expect(theme.image_url(:logo)).to eql(Theme::INVALID_CSS_VALUE)
       end
@@ -100,21 +97,21 @@ RSpec.describe Theme, type: :model do
 
     context 'when an image has been uploaded' do
       before do
-        theme.update_column(:logo, 'image.png')
+        theme_image.update_column(:image, 'image.png')
       end
 
       it 'returns an invalid CSS value' do
-        expect(theme.image_url(:logo)).to eql("url(/uploads/theme/logo/#{theme.id}/image.png)")
+        expect(theme.image_url(:logo)).to eql("url(/uploads/theme_image/image/#{theme_image.id}/image.png)")
       end
     end
 
     context 'when a base64 version of the image is available' do
       before do
-        theme.logo_base64 = 'text'
+        theme.image_previews = { 'logo' => 'b64' }
       end
 
-      it 'returns an invalid CSS value' do
-        expect(theme.image_url(:logo)).to eql('url(text)')
+      it 'returns base64 for the image' do
+        expect(theme.image_url(:logo)).to eql('url(b64)')
       end
     end
   end

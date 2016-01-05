@@ -11,11 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151201103637) do
+ActiveRecord::Schema.define(version: 20160104152625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "theme_images", force: :cascade do |t|
+    t.integer  "theme_id"
+    t.string   "identifier"
+    t.string   "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "theme_images", ["theme_id"], name: "index_theme_images_on_theme_id", using: :btree
+
+  create_table "themes", force: :cascade do |t|
+    t.integer  "website_id"
+    t.hstore   "colors"
+    t.hstore   "fonts"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "themes", ["website_id"], name: "index_themes_on_website_id", using: :btree
 
   create_table "websites", force: :cascade do |t|
     t.string   "title"
@@ -23,16 +43,6 @@ ActiveRecord::Schema.define(version: 20151201103637) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "themes", force: :cascade do |t|
-    t.integer  "website_id"
-    t.hstore   "colors"
-    t.hstore   "fonts"
-    t.string   "logo"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "themes", ["website_id"], name: "index_themes_on_website_id", using: :btree
-
+  add_foreign_key "theme_images", "themes"
   add_foreign_key "themes", "websites"
 end

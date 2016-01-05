@@ -1,9 +1,12 @@
 class Theme < ActiveRecord::Base
   belongs_to :website
+  has_many :images, foreign_key: 'theme_id', class_name: 'ThemeImage'
+  accepts_nested_attributes_for :images
 
   # CSS property value for invalidating any rule it's used in
   # When the browser encounters it, it's ignored and the fallback is used
   INVALID_CSS_VALUE = ':'
+
   FONT_STACKS = {
     'Helvetica':
       '"Helvetica Neue", Helvetica, Arial, sans-serif',
@@ -20,14 +23,12 @@ class Theme < ActiveRecord::Base
   }
 
   COLOR_VARS = [:background, :text]
-  store_accessor :colors, *COLOR_VARS.map{ |var| "#{var}_color" }
-
   FONT_VARS  = [:headings, :body]
-  store_accessor :fonts, *FONT_VARS.map{ |var| "#{var}_font" }
+  IMAGE_VARS  = [:background, :logo]
 
-  IMAGE_VARS  = [:logo]
-  mount_uploader :logo, ImageUploader
-  attr_accessor :logo_base64
+  store_accessor :colors, *COLOR_VARS.map{ |var| "#{var}_color" }
+  store_accessor :fonts, *FONT_VARS.map{ |var| "#{var}_font" }
+  attr_accessor :image_previews
 
   def color(var)
     value(:color, var) || INVALID_CSS_VALUE
@@ -54,7 +55,8 @@ class Theme < ActiveRecord::Base
     send(attribute).try(:html_safe)
   end
 
-  def image_src(image)
-    send("#{image}_base64") || send(image).url
+  def image_src(identifier)
+    preview = image_previews.try(:[], identifier.to_s)
+    preview || images.find_by(identifier: identifier).try(:image).try(:url)
   end
 end
