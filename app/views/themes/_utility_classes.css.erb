@@ -1,0 +1,23 @@
+/* Utility Classes
+================================================== */
+
+<% Theme::FONT_VARS.each do |key| %>
+.theme-font-<%= key.to_s.gsub('_', '-') %> {
+  font-family: <%= theme.font(key) %>;
+}
+<% end %>
+<% Theme::COLOR_VARS.each do |key| %>
+.theme-color-<%= key.to_s.gsub('_', '-') %> {
+  color: <%= theme.color(key) %>;
+}
+.theme-bg-color-<%= key.to_s.gsub('_', '-') %> {
+  background-color: <%= theme.color(key) %>;
+}
+<% end %>
+<% Theme::IMAGE_VARS.each do |key| %>
+.theme-bg-image-<%= key.to_s.gsub('_', '-') %> {
+  background-image: <%= theme.image_url(key) %>;
+}
+<% end %>
+
+/* -------------------------------------------------- */
