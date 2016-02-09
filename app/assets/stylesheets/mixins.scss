@@ -1,0 +1,27 @@
+@mixin theme-font($var, $default) {
+  font-family: $default;
+  /* THEME --------
+  font-family: font(#{$var});
+  -------- THEME */
+}
+
+@mixin theme-color($var, $default) {
+  color: $default;
+  /* THEME --------
+  color: color(#{$var});
+  -------- THEME */
+}
+
+@mixin theme-bg-color($var, $default) {
+  background-color: $default;
+  /* THEME --------
+  background-color: color(#{$var});
+  -------- THEME */
+}
+
+@mixin theme-bg-image($var, $default) {
+  background-image: url($default);
+  /* THEME --------
+  background-image: image_url(#{$var});
+  -------- THEME */
+}

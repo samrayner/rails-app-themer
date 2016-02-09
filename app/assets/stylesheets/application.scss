@@ -1,6 +1,7 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 @import 'bootstrap-colorpicker';
+@import 'mixins';
 @import 'themer';
 
 body {
@@ -20,11 +21,7 @@ body {
   -------- THEME */
 
   h1 {
-    font-family: times;
-
-    /* THEME --------
-    font-family: font(headings);
-    -------- THEME */
+    @include theme-font(headings, times);
   }
 }
 

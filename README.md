@@ -47,7 +47,30 @@ body {
 }
 ```
 
+[Sass mixins are provided][mixins] that make this even easier. The above code can be rewritten as:
+
+```
+body {
+  @include theme-bg-color(background, white);
+  @include theme-color(text, black);
+  @include theme-font(body, sans-serif);
+
+  h1, h2, h3, h4, h5, h6 {
+    @include theme-font(headings, serif);
+  }
+}
+```
+
 When you're done editing, **remember to run `rake theme:update`**. It will parse your compiled _application.css_ to generate _app/views/themes/show.css.erb_.
+
+The generated stylesheet also includes utility classes for all of your theme variables to quickly add style to HTML:
+
+```
+.theme-font-<var-name>
+.theme-color-<var-name>
+.theme-bg-color-<var-name>
+.theme-bg-image-<var-name>
+```
 
 ### 2. Manually (separate stylesheet)
 
@@ -74,3 +97,4 @@ Theme values that haven't been chosen by the user fall back to invalid CSS value
 [hstores]: http://www.postgresql.org/docs/9.0/static/hstore.html
 [Carrierwave]: https://github.com/carrierwaveuploader/carrierwave
 [show]: https://github.com/samrayner/rails-app-themer/blob/master/app/views/themes/show.css.erb
+[mixins]: https://github.com/samrayner/rails-app-themer/blob/master/app/assets/stylesheets/mixins.scss

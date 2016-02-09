@@ -52,7 +52,8 @@ class Theme < ActiveRecord::Base
   def value(type, var)
     attribute = "#{var}_#{type}"
     return nil unless respond_to?(attribute)
-    send(attribute).try(:html_safe)
+    value = send(attribute)
+    value.present? ? value.html_safe : nil
   end
 
   def image_src(identifier)
