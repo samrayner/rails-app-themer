@@ -30,10 +30,10 @@ body {
   font-family: sans-serif;
 
   /* THEME --------
-  background-color: color(background);
-  background-image: image_url(background);
-  color: color(text);
-  font-family: font(body);
+  background-color: theme.color(background);
+  background-image: theme.image_url(background);
+  color: theme.color(text);
+  font-family: theme.font(body);
   -------- THEME */
 
   h1, h2, h3, h4, h5, h6 {
@@ -41,7 +41,7 @@ body {
     font-family: serif;
 
     /* THEME --------
-    font-family: font(headings);
+    font-family: theme.font(headings);
     -------- THEME */
   }
 }

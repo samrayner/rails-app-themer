@@ -14,10 +14,10 @@ body {
   font-family: verdana;
 
   /* THEME --------
-  background-color: color(background);
-  background-image: image_url(background);
-  color: color(text);
-  font-family: font(body);
+  background-color: theme.color(background);
+  background-image: theme.image_url(background);
+  color: theme.color(text);
+  font-family: theme.font(body);
   -------- THEME */
 
   h1 {
@@ -29,6 +29,6 @@ body {
   height: 300px;
 
   /* THEME --------
-  background: image_url(logo) no-repeat 0 0;
+  background: theme.image_url(logo) no-repeat 0 0;
   -------- THEME */
 }

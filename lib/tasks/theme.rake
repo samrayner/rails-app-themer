@@ -3,7 +3,7 @@ def parse_file(path)
   selector_delimiter = /[\{\}]\s*$/
   empty_selector = /^.*\{[\s\n]*\}\s*$/
   empty_line = /^$\n/
-  function = /([\w-]+)\(([\w-]+)\)/
+  function = /(theme.[\w-]+)\(([^\)]+)\)/
 
   in_theme_block = false
 
@@ -25,7 +25,7 @@ def parse_file(path)
   #strip left over empty lines
   css.gsub!(empty_line, '')
   #translate CSS-style functions to valid ERB
-  css.gsub!(function, '<%= theme.\1(:\2) %>')
+  css.gsub!(function, '<%= \1(:\2) %>')
 end
 
 namespace :theme do

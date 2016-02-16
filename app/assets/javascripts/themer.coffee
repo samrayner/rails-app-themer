@@ -7,6 +7,7 @@ class Themer
     @iframe = @$viewport.get(0)
     @$locationInput = $('.browser-location')
     @$locationInput = $('.browser-location')
+    @firstLoad = true
 
   colorChanged: (event) =>
     @updatePreview()
@@ -44,7 +45,13 @@ class Themer
     event.preventDefault();
     @iframe.contentWindow.location.href = @$locationInput.val()
 
+  listenForTurbolinks: =>
+    $(@iframe.contentWindow.document).on 'page:change', @previewLoaded
+
   previewLoaded: =>
+    if @firstLoad
+      @listenForTurbolinks()
+      @firstLoad = false
     location = @iframe.contentWindow.location.href
     @$locationInput.val(location)
     $('#preview-url').val(location)

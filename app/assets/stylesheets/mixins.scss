@@ -1,27 +1,41 @@
 @mixin theme-font($var, $default) {
   font-family: $default;
   /* THEME --------
-  font-family: font(#{$var});
+  font-family: theme.font(#{$var});
   -------- THEME */
 }
 
-@mixin theme-color($var, $default) {
-  color: $default;
-  /* THEME --------
-  color: color(#{$var});
-  -------- THEME */
+@mixin theme-color($var, $default, $alpha:1) {
+  @if $alpha == 1 {
+    color: $default;
+    /* THEME --------
+    color: theme.color(#{$var});
+    -------- THEME */
+  } @else {
+    color: rgba($default, $alpha);
+    /* THEME --------
+    color: theme.rgba(#{$var}, #{$alpha});
+    -------- THEME */
+  }
 }
 
-@mixin theme-bg-color($var, $default) {
-  background-color: $default;
-  /* THEME --------
-  background-color: color(#{$var});
-  -------- THEME */
+@mixin theme-bg-color($var, $default, $alpha:1) {
+  @if $alpha == 1 {
+    background-color: $default;
+    /* THEME --------
+    background-color: theme.color(#{$var});
+    -------- THEME */
+  } @else {
+    background-color: rgba($default, $alpha);
+    /* THEME --------
+    background-color: theme.rgba(#{$var}, #{$alpha});
+    -------- THEME */
+  }
 }
 
 @mixin theme-bg-image($var, $default) {
   background-image: url($default);
   /* THEME --------
-  background-image: image_url(#{$var});
+  background-image: theme.image_url(#{$var});
   -------- THEME */
 }

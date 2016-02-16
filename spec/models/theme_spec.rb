@@ -13,7 +13,7 @@ RSpec.describe Theme, type: :model do
 
     context 'when var is not set' do
       before do
-        theme.fonts = { text_color: nil }
+        theme.colors = { text_color: nil }
       end
 
       it 'returns an invalid CSS value' do
@@ -26,8 +26,36 @@ RSpec.describe Theme, type: :model do
         theme.colors = { text_color: 'bar' }
       end
 
-      it 'returns an invalid CSS value' do
+      it 'returns the value' do
         expect(theme.color(:text)).to eql('bar')
+      end
+    end
+  end
+
+  describe '#rgba' do
+    context 'when var does not exist' do
+      it 'returns an invalid CSS value' do
+        expect(theme.rgba(:foo, 1)).to eql(Theme::INVALID_CSS_VALUE)
+      end
+    end
+
+    context 'when var is not set' do
+      before do
+        theme.colors = { text_color: nil }
+      end
+
+      it 'returns an invalid CSS value' do
+        expect(theme.rgba(:text, 1)).to eql(Theme::INVALID_CSS_VALUE)
+      end
+    end
+
+    context 'when var is set' do
+      before do
+        theme.colors = { text_color: '#ff0000' }
+      end
+
+      it 'returns the value as RGBa' do
+        expect(theme.rgba(:text, 0.5)).to eql('rgba(255, 0, 0, 0.5)')
       end
     end
   end
@@ -54,7 +82,7 @@ RSpec.describe Theme, type: :model do
         theme.fonts = { body_font: 'bar' }
       end
 
-      it 'returns an invalid CSS value' do
+      it 'returns the value' do
         expect(theme.font(:body)).to eql('bar')
       end
     end
@@ -62,8 +90,8 @@ RSpec.describe Theme, type: :model do
 
   describe '#image' do
     context 'when no image has been uploaded' do
-      it 'returns an invalid CSS value' do
-        expect(theme.image(:logo)).to eql(Theme::INVALID_CSS_VALUE)
+      it 'returns nil' do
+        expect(theme.image(:logo)).to be nil
       end
     end
 
