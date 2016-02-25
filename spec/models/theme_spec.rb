@@ -100,18 +100,8 @@ RSpec.describe Theme, type: :model do
         theme_image.update_column(:image, 'image.png')
       end
 
-      it 'returns an invalid CSS value' do
-        expect(theme.image(:logo)).to eql("/uploads/theme_image/image/#{theme_image.id}/image.png")
-      end
-    end
-
-    context 'when a base64 version of the image is available' do
-      before do
-        theme.image_previews = { 'logo' => 'b64' }
-      end
-
-      it 'returns base64 for the image' do
-        expect(theme.image(:logo)).to eql('b64')
+      it 'returns the image' do
+        expect(theme.image(:logo).url).to eql("/uploads/theme_image/image/#{theme_image.id}/image.png")
       end
     end
   end
@@ -128,7 +118,7 @@ RSpec.describe Theme, type: :model do
         theme_image.update_column(:image, 'image.png')
       end
 
-      it 'returns an invalid CSS value' do
+      it 'returns the CSS for the image path' do
         expect(theme.image_url(:logo)).to eql("url(/uploads/theme_image/image/#{theme_image.id}/image.png)")
       end
     end

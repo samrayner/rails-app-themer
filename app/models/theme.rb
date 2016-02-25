@@ -46,13 +46,15 @@ class Theme < ActiveRecord::Base
   end
 
   def image_url(var)
-    url = image(var)
+    if preview = image_previews.try(:[], var.to_s)
+      return "url(#{preview})"
+    end
+    url = image(var).try(:url)
     url ? "url(#{url})" : INVALID_CSS_VALUE
   end
 
   def image(identifier)
-    preview = image_previews.try(:[], identifier.to_s)
-    preview || images.find_by(identifier: identifier).try(:image).try(:url)
+    images.find_by(identifier: identifier).try(:image)
   end
 
   private
